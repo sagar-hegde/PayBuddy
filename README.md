@@ -1,8 +1,9 @@
 # 💳 PayBuddy
 
-PayBuddy is a simple digital banking demo that allows customers to create an account, log in, check their balance, send money, and view transaction history.
+PayBuddy is a simple digital banking demo that allows customers to create an account, log in, check their balance, send money and view transaction history. 
+Also many more features, have live demo below 👇
 
-# 🌐 **Live Demo:** https://pyby.netlify.app/
+# 🌐 **Live Demo:** [PayBuddy](https://pyby.netlify.app/)
 
 ## ✨ Features
 
