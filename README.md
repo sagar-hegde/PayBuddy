@@ -1,7 +1,7 @@
 # 💳 PayBuddy
 
 PayBuddy is a simple digital banking demo that allows customers to create an account, log in, check their balance, send money and view transaction history.
-Also many more features, have live demo below 👇
+Also many more features, have live demo below 👇 
 
 # 🌐 **Live Demo:** [PayBuddy](https://pyby.netlify.app/)
 
@@ -14,7 +14,7 @@ Also many more features, have live demo below 👇
 | Priya Sanjay Patel   | 9870098775 | 6158 |
 | Neha Rajiv Gupta     | 9870098711 | 8154 |
 
-> ⚠️ **Note:** These credentials are for demo/testing purposes only.
+> ⚠️ **Note:** These credentials are for demo/testing purposes only. 
 
 ## ✨ Features
 
