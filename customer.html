@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PayBuddy — Banking made simple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ===================== LAUNCH ANIMATION ===================== -->
+<div class="launch-screen" id="launchScreen">
+  <div class="launch-mark">
+    <svg class="launch-logo" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 4 L56 14 V30 C56 46 46 56 32 60 C18 56 8 46 8 30 V14 Z" fill="#146356" stroke="#C89B3C" stroke-width="2"/>
+      <path d="M24 32 L29 38 L41 24" stroke="#F3F5F2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="launch-word">PayBuddy</div>
+    <div class="launch-tag">your money, moving simply</div>
+  </div>
+</div>
+
+<!-- ===================== AUTH SCREEN ===================== -->
+<div class="auth-shell" id="authShell" style="display:none;">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 4 L56 14 V30 C56 46 46 56 32 60 C18 56 8 46 8 30 V14 Z" fill="#146356"/>
+        <path d="M24 32 L29 38 L41 24" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>PayBuddy</span>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Log in</button>
+      <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Create account</button>
+    </div>
+
+    <div class="form-alert error" id="loginAlert"></div>
+
+    <!-- LOGIN PANE -->
+    <div class="pane active" id="paneLogin">
+      <form id="loginForm" onsubmit="return false;">
+        <div class="field" id="fLoginMobile">
+          <label for="loginMobile">Mobile number</label>
+          <input type="tel" id="loginMobile" inputmode="numeric" maxlength="10" placeholder="10-digit mobile number" autocomplete="off" />
+          <div class="err">Enter a valid 10-digit mobile number.</div>
+        </div>
+        <div class="field" id="fLoginMpin">
+          <label for="loginMpin">mPIN</label>
+          <input type="password" id="loginMpin" inputmode="numeric" maxlength="4" placeholder="4-digit mPIN" autocomplete="off" />
+          <div class="err">Enter your 4-digit mPIN.</div>
+        </div>
+        <button class="btn btn-primary btn-block" id="loginBtn" onclick="handleLogin()">Log in</button>
+      </form>
+      <div class="form-note">New to PayBuddy? <button onclick="switchTab('signup')">Create an account</button></div>
+    </div>
+
+    <!-- SIGNUP PANE -->
+    <div class="pane" id="paneSignup">
+      <div class="form-alert error" id="signupAlert"></div>
+      <form id="signupForm" onsubmit="return false;">
+        <div class="field" id="fName">
+          <label for="suName">Full name</label>
+          <input type="text" id="suName" placeholder="As per your ID" autocomplete="off" />
+          <div class="err">Please enter your full name.</div>
+        </div>
+        <div class="field" id="fDob">
+          <label for="suDob">Date of birth</label>
+          <input type="date" id="suDob" />
+          <div class="err">Please enter your date of birth.</div>
+        </div>
+        <div class="field" id="fMobile">
+          <label for="suMobile">Mobile number</label>
+          <input type="tel" id="suMobile" inputmode="numeric" maxlength="10" placeholder="10-digit mobile number" autocomplete="off" />
+          <div class="err">Enter a valid, unused 10-digit mobile number.</div>
+        </div>
+        <div class="field" id="fMpin">
+          <label for="suMpin">Create 4-digit mPIN</label>
+          <input type="password" id="suMpin" inputmode="numeric" maxlength="4" placeholder="4-digit mPIN" autocomplete="off" />
+          <div class="err">mPIN must be exactly 4 digits.</div>
+        </div>
+        <div class="field" id="fMpin2">
+          <label for="suMpin2">Confirm mPIN</label>
+          <input type="password" id="suMpin2" inputmode="numeric" maxlength="4" placeholder="Re-enter mPIN" autocomplete="off" />
+          <div class="err">mPINs do not match.</div>
+        </div>
+        <button class="btn btn-primary btn-block" id="signupBtn" onclick="handleSignup()">Create account</button>
+      </form>
+      <div class="form-note">Already have an account? <button onclick="switchTab('login')">Log in</button></div>
+    </div>
+
+    <!-- ACCOUNT CREATED PANE -->
+    <div class="pane" id="paneCreated">
+      <div class="success-box">
+        <div class="ring">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#1B7F4C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 style="font-size:19px;">Account created</h2>
+        <p style="color:var(--muted); font-size:13.5px; margin-top:6px;">Save these details — you'll need your mobile number and mPIN to log in.</p>
+        <div class="acct-card">
+          <div class="row"><span>Account holder</span><span id="createdName">—</span></div>
+          <div class="row"><span>Account number</span><span id="createdAcct">—</span></div>
+          <div class="row"><span>IFSC code</span><span id="createdIfsc">—</span></div>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="goToLoginAfterSignup()">Continue to log in</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DASHBOARD ===================== -->
+<div class="app-shell" id="appShell" style="display:none;">
+  <div class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 4 L56 14 V30 C56 46 46 56 32 60 C18 56 8 46 8 30 V14 Z" fill="#146356" stroke="#C89B3C" stroke-width="2"/>
+        <path d="M24 32 L29 38 L41 24" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>PayBuddy</span>
+    </div>
+    <div class="who">
+      <span>Hi, <strong id="topName">—</strong></span>
+      <button class="icon-btn" title="Log out" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 6V4h11v16H9v-2M14 12H3m0 0l4-4m-4 4l4 4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="balance-hero">
+      <div class="label">Available balance</div>
+      <div class="amount"><span class="cur">₹</span><span id="balanceAmt">0.00</span></div>
+      <div class="meta">
+        <span>A/C <b id="miniAcct">—</b></span>
+        <span>IFSC <b id="miniIfsc">—</b></span>
+      </div>
+    </div>
+
+    <div class="section-title">Services</div>
+    <div class="services-grid">
+      <button class="service-tile primary" onclick="openPayPanel()">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 6H9.5a3 3 0 000 6h5a3 3 0 010 6H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <span>Pay</span>
+      </button>
+      <button class="service-tile" onclick="showToast('Coming soon')">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <span>Statements</span>
+      </button>
+      <button class="service-tile" onclick="showToast('Coming soon')">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.8"/></svg></div>
+        <span>Cards</span>
+      </button>
+      <button class="service-tile" onclick="showToast('Coming soon')">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.35-9.5-8.5C.6 8.6 2.5 5 6 5c2 0 3.3 1 4 2 0.7-1 2-2 4-2 3.5 0 5.4 3.6 3.5 7.5C19 16.65 12 21 12 21z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+        <span>Rewards</span>
+      </button>
+      <button class="service-tile" onclick="showToast('Coming soon')">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10l8-6 8 6v10h-5v-6H9v6H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+        <span>Loans</span>
+      </button>
+      <button class="service-tile" onclick="showToast('Coming soon')">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <span>Fixed Deposit</span>
+      </button>
+      <button class="service-tile" onclick="showToast('Coming soon')">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" stroke="currentColor" stroke-width="1.8"/></svg></div>
+        <span>Recharge</span>
+      </button>
+      <button class="service-tile" onclick="showToast('Coming soon')">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 01-9 8.4A8.5 8.5 0 013 11.5 8.38 8.38 0 0111 3a8.5 8.5 0 0110 8.5z" stroke="currentColor" stroke-width="1.8"/></svg></div>
+        <span>Support</span>
+      </button>
+    </div>
+
+    <div class="section-title">Recent activity</div>
+    <div class="history-list" id="historyList">
+      <div class="empty-state">Loading history…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PAY PANEL ===================== -->
+<div class="overlay" id="payOverlay" onclick="closePayPanel()"></div>
+<div class="pay-panel" id="payPanel">
+  <div class="pay-panel-head">
+    <h2>Pay someone</h2>
+    <button class="icon-btn" style="background:var(--surface-2); color:var(--text);" onclick="closePayPanel()">
+      <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M6 6l12 12M18 6L6 18" stroke="#16211C" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <div class="form-alert error" id="payAlert"></div>
+
+  <div class="field" id="fPayMobile">
+    <label for="payMobile">Recipient's mobile number</label>
+    <input type="tel" id="payMobile" inputmode="numeric" maxlength="10" placeholder="10-digit mobile number" autocomplete="off" oninput="onPayMobileInput()" />
+    <div class="hint" id="payMobileHint">We'll look up their account automatically.</div>
+  </div>
+
+  <div class="payee-card" id="payeeCard">
+    <div class="name" id="payeeName">—</div>
+    <div class="line">A/C <span id="payeeAcct">—</span></div>
+    <div class="line">IFSC <span id="payeeIfsc">—</span></div>
+  </div>
+
+  <div id="payAmountBlock" style="display:none;">
+    <div class="amount-input" id="amountInputWrap">
+      <span class="cur">₹</span>
+      <input type="number" id="payAmount" placeholder="0.00" min="1" step="0.01" onfocus="this.parentElement.classList.add('focus')" onblur="this.parentElement.classList.remove('focus')" />
+    </div>
+    <div class="hint">Available balance: ₹<span id="payAvailBal">0.00</span></div>
+  </div>
+
+  <div class="pay-actions" id="payActions" style="display:none;">
+    <button class="btn btn-primary btn-block" id="confirmPayBtn" onclick="confirmPayment()">Pay now</button>
+  </div>
+</div>
+
+<!-- ===================== SUCCESS TICK ===================== -->
+<div class="tick-overlay" id="tickOverlay">
+  <svg class="tick-circle-svg" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="42"/>
+    <path d="M32 52 L44 64 L70 36"/>
+  </svg>
+  <h3>Payment successful</h3>
+  <div class="tick-amt" id="tickAmt">₹0.00</div>
+  <div class="tick-to" id="tickTo">to —</div>
+  <button class="btn btn-ghost" onclick="closeTick()" style="margin-top:8px;">Done</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="customer.js"></script>
+</body>
+</html>
