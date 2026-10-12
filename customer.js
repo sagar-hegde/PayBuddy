@@ -1,7 +1,3 @@
-/* ===========================================================
-   PayBuddy: Customer portal logic
-   =========================================================== */
-
 const SESSION_KEY = "paybuddy_customer_session";
 let currentCustomer = null;      // full customer doc (live)
 let historyUnsub = null;
